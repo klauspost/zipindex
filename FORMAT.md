@@ -45,7 +45,7 @@ The rest of the payload must be decompressed using Zstandard. A maximum window s
 
 Files are stored as an array of arrays. The arrays size of `Names` indicates the number of entries.
 
-Type 3 supports up to 1 billion entries. The uncompressed serialized data *must* be less than 128MB.
+The uncompressed serialized data *must* be less than 128MB. A separate file-count cap of 1 billion entries exists, but the 128MB size limit will be the binding constraint in practice.
 
 All arrays must have the same number of entries. CRCs must have `entries*4` bytes.
 
@@ -154,7 +154,8 @@ Zstandard-compressed `filesAsStructs` data. Chunks can be decompressed independe
 The recommended chunk size is approximately 25,000 entries. If the remaining entries would
 produce a chunk between 25,000 and 50,000, it should be split in half.
 
-Type 4 supports up to 1 billion entries total across all chunks.
+Each chunk is subject to the same 128MB uncompressed limit as Type 3. 
+The 1 billion file-count cap applies across all chunks.
 
 ## Layered Index
 
