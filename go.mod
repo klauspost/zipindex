@@ -5,7 +5,7 @@ go 1.24.0
 tool github.com/tinylib/msgp
 
 require (
-	github.com/klauspost/compress v1.18.3
+	github.com/klauspost/compress v1.18.5
 	github.com/tinylib/msgp v1.6.3
 )
 
