@@ -1212,6 +1212,19 @@ func TestLayeredIndex_CompactDeletes(t *testing.T) {
 		}
 	})
 
+	t.Run("RefConflictNoEffectiveDeletes", func(t *testing.T) {
+		// Delete then re-add: no effective deletes, but ref is still checked.
+		l := NewLayeredIndex[string]()
+		l.AddLayer(Files{{Name: "a.txt", CRC32: 1}}, "base")
+		l.AddDeleteLayer(Files{{Name: "a.txt"}}, "del1")
+		l.AddLayer(Files{{Name: "a.txt", CRC32: 2}}, "v2")
+
+		err := l.CompactDeletes("base")
+		if err == nil {
+			t.Error("Should error on conflicting ref even when no effective deletes")
+		}
+	})
+
 	t.Run("ComplexCycles", func(t *testing.T) {
 		l := NewLayeredIndex[string]()
 		l.AddLayer(Files{{Name: "a.txt", CRC32: 1}}, "v1")

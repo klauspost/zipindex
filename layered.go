@@ -349,6 +349,7 @@ func (l *LayeredIndex[T]) CompactDeletes(ref T) error {
 		return nil
 	}
 
+	// Check ref doesn't conflict with non-delete layers.
 	for _, lay := range l.layers {
 		if !lay.isDelete && lay.ref == ref {
 			return fmt.Errorf("layer with reference %v already exists", ref)
